@@ -1,0 +1,7 @@
+{
+  "name": "golf-series-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
