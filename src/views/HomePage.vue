@@ -1,17 +1,11 @@
 <template>
-    <nav>
-        <div class="nav-left">
-            <h1>Home</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
+    <ion-content class="ion-padding">
+        <ion-menu-toggle>
+            <ion-button>Click to open the menu</ion-button>
+        </ion-menu-toggle>
+    </ion-content>
 </template>
 <script setup lang="ts">
 import { useStoreUI } from "../stores/storeUI"
 import { useRouter } from 'vue-router'
-
-const router = useRouter();
-const { showOverlay } = useStoreUI()
 </script>
