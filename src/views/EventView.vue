@@ -31,13 +31,11 @@ import { useFirestore } from '../stores/useFirestore'
 import { useRoute, useRouter } from 'vue-router'
 import Event from '../models/event.model'
 import { onMounted } from 'vue'
-import { useStoreUI } from '../stores/storeUI'
 
 const route = useRoute()
 const router = useRouter()
-const seriesId = route.params.seriesId;
-const eventId = route.params.eventId;
-const { showOverlay } = useStoreUI()
+const seriesId = route.params.seriesId
+const eventId = route.params.eventId
 
 const { getItem: getEvent, item: event, init } = useFirestore<Event>(['series', seriesId as string, 'events'])
     const navigateToItem = (seriesId: string) => {

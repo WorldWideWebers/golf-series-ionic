@@ -39,9 +39,7 @@ import { ref, onMounted } from 'vue'
 import router from '../router';
 import { useFirestore } from '../stores/useFirestore'
 import { Series } from '../models/series.model'
-import { useStoreUI } from "../stores/storeUI"
 
-const { showOverlay } = useStoreUI()
 const { addItem: addSeries, init } = useFirestore<Series>(['series'])
 const newSeries = ref({
     name: '',

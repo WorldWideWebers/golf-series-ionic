@@ -1,68 +1,71 @@
 <template>
-    <nav v-if="series">
-        <div class="nav-left" v-if="series">
-            <ion-icon @click="navigateToItem(series?.id as string)" name="arrow-back-outline"></ion-icon>
-            <h1>{{ series.name }}</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
-    <div class="content-container" v-if="series">
-        <div class="input-group">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" v-model="series.name">
+    <ion-page v-if="series">
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>{{ series.name }}</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="input-group">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" v-model="series.name">
+                </div>
+                <div>
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" v-model="series.startDate">
+                </div>
+                <div>
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" v-model="series.endDate">
+                </div>
             </div>
-            <div>
-                <label for="startDate">Start Date:</label>
-                <input type="date" id="startDate" v-model="series.startDate">
+            <div class="input-group">
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea type="text" id="description" v-model="series.description"></textarea>
+                </div>
             </div>
-            <div>
-                <label for="endDate">End Date:</label>
-                <input type="date" id="endDate" v-model="series.endDate">
+            <h1>Players</h1>
+            <div id="player-list" v-for="player in series.players" :key="player.userId">
+                <div class="item-view-info">
+                    <span><b>Name:</b> {{ player.userName }}</span>
+                    <span><b>Role:</b> {{ player.role }}</span>
+                    <button @click="deletePlayer(player.userId)">Delete</button>
+                </div>
             </div>
-        </div>
-        <div class="input-group">
-            <div>
-                <label for="description">Description:</label>
-                <textarea type="text" id="description" v-model="series.description"></textarea>
+            <div class="button-group">
+                <button @click="addMe" :disabled="userInList">Add me to series</button>
+                <button @click="save">Save</button>
             </div>
-        </div>
-        <h1>Players</h1>
-        <div id="player-list" v-for="player in series.players" :key="player.userId">
-            <div class="item-view-info">
-                <span><b>Name:</b> {{ player.userName }}</span>
-                <span><b>Role:</b> {{ player.role }}</span>
-                <button @click="deletePlayer(player.userId)">Delete</button>
+            <h1>Events</h1>
+            <div id="player-list" v-for="event in (events as Event[])" :key="event.id">
+                <div class="item-view-info">
+                    <span @click="navigateToViewEvent(event.id)"><b>Name:</b> {{ event.name }}</span>
+                    <span><b>Date:</b> {{ event.date }}</span>
+                    <span><b>Course:</b> {{ event.course?.name }}</span>
+                    <button @click="deleteEvent(event.id)">Delete</button>
+                </div>
             </div>
-        </div>
-        <div class="button-group">
-            <button @click="addMe" :disabled="userInList">Add me to series</button>
-            <button @click="save">Save</button>
-        </div>
-        <h1>Events</h1>
-        <div id="player-list" v-for="event in (events as Event[])" :key="event.id">
-            <div class="item-view-info">
-                <span @click="navigateToViewEvent(event.id)"><b>Name:</b> {{ event.name }}</span>
-                <span><b>Date:</b> {{ event.date }}</span>
-                <span><b>Course:</b> {{ event.course?.name }}</span>
-                <button @click="deleteEvent(event.id)">Delete</button>
-            </div>
-        </div>
-        <button @click="navigateToAddEvent()">Add Event</button>
-    </div>
+            <button @click="navigateToAddEvent()">Add Event</button>
+        </ion-content>
+    </ion-page>
 </template>
 <script setup lang="ts">
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 import { useRoute, useRouter } from 'vue-router'
-import { useStoreUI } from "../stores/storeUI"
 import { useStoreAuth } from '../stores/storeAuth'
 import { onMounted, ref } from 'vue'
 import { Series } from '../models/series.model';
 import { useFirestore } from '../stores/useFirestore';
 import Event from '../models/event.model';
 
-const { showOverlay } = useStoreUI()
 const { getItem, updateItem, item: series, init } = useFirestore<Series>(['series'])
 const route = useRoute()
 const router = useRouter()

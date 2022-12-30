@@ -1,39 +1,28 @@
 <template>
-    <nav>
-        <div class="nav-left">
-            <h1>Admin Panel</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
-    <div class="content-container">
-        <div id="button-section">
-            <router-link to="/course-list">
+    <ion-page>
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>Admin Panel</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="button-group">
+                <router-link to="/course-list">
                 <button>Courses</button>
             </router-link>
             <router-link to="/series-list">
                 <button>Series</button>
             </router-link>
-        </div>
-    </div>
+            </div>
+        </ion-content>
+    </ion-page>
 </template>
 <script setup lang="ts">
-import { useStoreUI } from "../stores/storeUI"
-import { useRouter } from 'vue-router'
-
-const router = useRouter();
-const { showOverlay } = useStoreUI()
-
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 </script>
-<style scoped>
-#button-section {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-}
-
-#button-section button {
-    width: 100%;
-}
-</style>

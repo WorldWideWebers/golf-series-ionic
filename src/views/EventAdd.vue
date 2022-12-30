@@ -32,14 +32,12 @@
 </template>
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { useStoreUI } from '../stores/storeUI'
 import { useFirestore } from '../stores/useFirestore'
 import { onMounted, ref } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const seriesId = route.params.seriesId as string
-const { showOverlay } = useStoreUI()
 const { addItem, init } = useFirestore<Event>(['series', seriesId, 'events'])
 const newEvent = ref({
     name: '',

@@ -1,17 +1,18 @@
 <template>
-    <nav>
-        <div class="nav-left">
-            <router-link to="course-list">
-                <ion-icon name="arrow-back-outline"></ion-icon>
-            </router-link>
-            <h1>Add Course</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
-    <div class="content-container">
-        <div class="input-group">
+    <ion-page>
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>Add Course</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="input-group">
             <div>
                 <label for="name">Name:</label>
                 <input type="text" id="name" v-model="newCourse.name">
@@ -63,17 +64,16 @@
                 </tbody>
             </table>
         </div>
-    </div>
+        </ion-content>
+    </ion-page>
 </template>
 <script setup lang="ts">
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonList, IonItem, IonLabel, IonInput, IonButton, IonPage } from '@ionic/vue';
 import { ref, onMounted } from 'vue'
-import { RouterLink } from 'vue-router';
 import { Course } from '../models/course.model';
 import router from '../router';
-import { useStoreUI } from "../stores/storeUI"
 import { useFirestore } from '../stores/useFirestore';
 
-const { showOverlay } = useStoreUI()
 const { addItem: addCourse, init } = useFirestore<Course>(['courses'])
 const newCourse = ref({
     name: '', numberOfSides: 2, slope: 110, par: 72, city: '', state: '', sides: [

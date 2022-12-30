@@ -1,49 +1,49 @@
 <template>
-    <nav>
-        <div class="nav-left">
-            <router-link to="admin-panel">
-                <ion-icon name="arrow-back-outline"></ion-icon>
-            </router-link>
-            <h1>Courses</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
-    <div class="content-container">
-        <div class="item-list">
-            <a class="item" v-for="course in courses" :key="course.id">
-                <div class="item-info" @click="navigateToItem(course.id)">
-                    <b>{{ course.name }}</b>
-                    <div>
-                        <span>{{ course.numberOfSides }} sides</span>
-                        <span>{{ course.slope }} slope</span>
-                        <span>{{ course.par }} par</span>
-                        <span>{{ course.city }}, {{ course.state }}</span>
+    <ion-page>
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>Courses</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="item-list">
+                <a class="item" v-for="course in courses" :key="course.id">
+                    <div class="item-info" @click="navigateToItem(course.id)">
+                        <b>{{ course.name }}</b>
+                        <div>
+                            <span>{{ course.slope }} slope</span>
+                            <span>{{ course.par }} par</span>
+                            <span>{{ course.city }}, {{ course.state }}</span>
+                        </div>
                     </div>
-                </div>
-                <button @click="deleteCourse(course.id)">
-                    <ion-icon name="trash-outline"></ion-icon>
-                </button>
-            </a>
-        </div>
-        <div class="button-group">
+                    <button @click="deleteCourse(course.id)">
+                        <ion-icon :icon="trashOutline"></ion-icon>
+                    </button>
+                </a>
+            </div>
             <router-link to="/add-course">
-                <button>New course</button>
+                <button>Add course</button>
             </router-link>
-        </div>
-    </div>
+        </ion-content>
+    </ion-page>
 </template>
+
 <script setup lang="ts">
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage, IonButton, IonIcon } from '@ionic/vue';
+import { trashOutline } from 'ionicons/icons';
 import { useFirestore } from '../stores/useFirestore'
 import { useRouter } from 'vue-router'
-import { useStoreUI } from "../stores/storeUI"
 import { Course } from '../models/course.model'
 import { onMounted } from 'vue'
 
 const { deleteItem: deleteCourse, items: courses, init } = useFirestore<Course>(['courses'])
 const router = useRouter()
-const { showOverlay } = useStoreUI()
 
 const navigateToItem = (courseId: string) => {
     router.push('/view-course/' + courseId)
