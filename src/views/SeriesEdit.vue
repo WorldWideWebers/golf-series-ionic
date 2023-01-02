@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="button-group">
-                <button @click="addMe" :disabled="userInList">Add me to series</button>
+                <button @click="addMe" v-if="!userInList">Add me to series</button>
                 <button @click="save">Save</button>
             </div>
             <h1>Events</h1>
@@ -85,7 +85,7 @@ onMounted(() => {
     initEvents()
     getItem(seriesId as string)
     if (series.value && currentUser) {
-        userInList.value = series.value.players.find(p => p.userId === currentUser.id) !== undefined
+        userInList.value = (players.value as Player[]).find(p => p.userId === currentUser.id) !== undefined
     }
 })
 const save = () => {
