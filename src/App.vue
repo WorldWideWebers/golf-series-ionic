@@ -135,10 +135,6 @@ select {
   color: #008763;
 }
 
-.content-container {
-  margin: 1rem;
-}
-
 .button-group {
   display: flex;
   flex-direction: column;

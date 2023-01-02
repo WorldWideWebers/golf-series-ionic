@@ -35,7 +35,7 @@
     </ion-page>
 </template>
 <script setup lang="ts">
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage, IonIcon } from '@ionic/vue';
 import { trashOutline } from 'ionicons/icons';
 import { onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router'

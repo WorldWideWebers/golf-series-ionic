@@ -1,13 +1,4 @@
 <template>
-    <nav>
-        <div class="nav-left" v-if="event">
-            <ion-icon @click="navigateToItem(seriesId as string)" name="arrow-back-outline"></ion-icon>
-            <h1>{{ event.name }}</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
     <div class="content-container">
         <h1>Event</h1>
         <div v-if="event">

@@ -3,6 +3,7 @@ import { Player } from './player.model';
 
 export interface Series {
     id: string,
+    owner: string,
     name: string,
     description: string,
     image: string,

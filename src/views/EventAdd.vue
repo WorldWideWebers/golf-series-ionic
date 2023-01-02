@@ -1,13 +1,5 @@
 <template>
-    <nav>
-        <div class="nav-left">
-            <ion-icon @click="navigateToItem(seriesId as string)" name="arrow-back-outline"></ion-icon>
-            <h1>Add Event</h1>
-        </div>
-        <a class="hamburger" @click="showOverlay">
-            <ion-icon name="reorder-three-outline"></ion-icon>
-        </a>
-    </nav>
+
     <div class="content-container">
         <div class="input-group">
             <div>

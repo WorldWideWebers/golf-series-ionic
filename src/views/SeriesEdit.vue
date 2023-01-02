@@ -33,11 +33,14 @@
                 </div>
             </div>
             <h1>Players</h1>
-            <div id="player-list" v-for="player in series.players" :key="player.userId">
+            <div id="player-list" v-for="player in (players as Player[])" :key="player.userId">
                 <div class="item-view-info">
                     <span><b>Name:</b> {{ player.userName }}</span>
                     <span><b>Role:</b> {{ player.role }}</span>
-                    <button @click="deletePlayer(player.userId)">Delete</button>
+                    <span><b>Handicap:</b> {{ player.handicap }}</span>
+                    <span><b>Current winnings:</b> {{ player.currentWinnings }}</span>
+                    <span><b>Current points:</b> {{ player.currentPoints }}</span>
+                    <button @click="deletePlayer(player.id)">Delete</button>
                 </div>
             </div>
             <div class="button-group">
@@ -65,17 +68,20 @@ import { onMounted, ref } from 'vue'
 import { Series } from '../models/series.model';
 import { useFirestore } from '../stores/useFirestore';
 import Event from '../models/event.model';
+import { Player } from '@/models/player.model';
 
 const { getItem, updateItem, item: series, init } = useFirestore<Series>(['series'])
 const route = useRoute()
 const router = useRouter()
 const seriesId = route.params.id as string;
 const { items: events, init: initEvents, deleteItem: deleteEvent, } = useFirestore<Event>(['series', seriesId, 'events'])
+const { items: players, init: initPlayers, deleteItem: deletePlayer, addItem: addPlayer } = useFirestore(['series', seriesId, 'players'])
 const { currentUser } = useStoreAuth()
 const userInList = ref(false)
 
 onMounted(() => {
     init()
+    initPlayers()
     initEvents()
     getItem(seriesId as string)
     if (series.value && currentUser) {
@@ -86,9 +92,6 @@ const save = () => {
     updateItem(series.value?.id as string, series.value);
     router.push({ name: 'series-list' })
 }
-const navigateToItem = (seriesId: string) => {
-    router.push('/view-series/' + seriesId)
-}
 const addMe = () => {
     if (currentUser && series.value) {
         if (!series.value.players) {
@@ -97,16 +100,10 @@ const addMe = () => {
         if (series.value.players.find(p => p.userId === currentUser.id)) {
             return;
         }
-        series.value.players.push({ userId: currentUser.id, userName: currentUser.userName, role: 'Player' })
-        updateItem(series.value.id as string, series.value);
+        addPlayer({ userId: currentUser.id, userName: currentUser.userName, role: 'Player', handicap: currentUser.handicap, currentWinnings: 0, currentPoints: 0 } as Player )
     }
 }
-const deletePlayer = (playerId: string) => {
-    if (series.value) {
-        series.value.players = series.value.players.filter(p => p.userId !== playerId)
-        updateItem(series.value.id as string, series.value);
-    }
-}
+
 const navigateToAddEvent = () => {
     router.push('/add-event/' + seriesId)
 }
