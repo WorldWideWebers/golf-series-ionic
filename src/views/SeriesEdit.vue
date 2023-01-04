@@ -32,43 +32,58 @@
                     <textarea type="text" id="description" v-model="series.description"></textarea>
                 </div>
             </div>
-            <h1>Players</h1>
-            <div id="player-list" v-for="player in (players as Player[])" :key="player.userId">
-                <div class="item-view-info">
-                    <span><b>Name:</b> {{ player.userName }}</span>
-                    <span><b>Role:</b> {{ player.role }}</span>
-                    <span><b>Handicap:</b> {{ player.handicap }}</span>
-                    <span><b>Current winnings:</b> {{ player.currentWinnings }}</span>
-                    <span><b>Current points:</b> {{ player.currentPoints }}</span>
-                    <button @click="deletePlayer(player.id)">Delete</button>
+            <button @click="save">Save</button>
+            <fieldset>
+                <legend>Events</legend>
+                <div class="item-list">
+                    <a class="item" v-for="event in (events as Event[])" :key="event.id">
+                        <div class="item-info" @click="navigateToViewEvent(event.id)">
+                            <b>{{ event.name }}</b>
+                            <div>
+                                <span><b>Date:</b> {{ event.date }}</span>
+                                <span><b>Course:</b> {{ event.course?.name }}</span>
+                            </div>
+                        </div>
+                        <button @click="deleteEvent(event.id)">
+                            <ion-icon :icon="trashOutline"></ion-icon>
+                        </button>
+                    </a>
                 </div>
-            </div>
-            <div class="button-group">
+                <button @click="navigateToAddEvent()">Add Event</button>
+            </fieldset>
+            <fieldset>
+                <legend>Players</legend>
+                <div class="item-list">
+                    <a class="item" v-for="player in (players as Player[])" :key="player.userId">
+                        <div class="item-info">
+                            <b> {{ player.userName }}</b>
+                            <div>
+                                <span><b>Role:</b> {{ player.role }}</span>
+                                <span><b>Hc:</b> {{ player.handicap }}</span>
+                                <span><b>Winnings:</b> {{ player.currentWinnings }}</span>
+                                <span><b>Points:</b> {{ player.currentPoints }}</span>
+                            </div>
+                        </div>
+                        <button @click="deletePlayer(player.id)">
+                            <ion-icon :icon="trashOutline"></ion-icon>
+                        </button>
+                    </a>
+                </div>
                 <button @click="addMe" v-if="!userInList">Add me to series</button>
-                <button @click="save">Save</button>
-            </div>
-            <h1>Events</h1>
-            <div id="player-list" v-for="event in (events as Event[])" :key="event.id">
-                <div class="item-view-info">
-                    <span @click="navigateToViewEvent(event.id)"><b>Name:</b> {{ event.name }}</span>
-                    <span><b>Date:</b> {{ event.date }}</span>
-                    <span><b>Course:</b> {{ event.course?.name }}</span>
-                    <button @click="deleteEvent(event.id)">Delete</button>
-                </div>
-            </div>
-            <button @click="navigateToAddEvent()">Add Event</button>
+            </fieldset>
         </ion-content>
     </ion-page>
 </template>
 <script setup lang="ts">
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
+import { trashOutline } from 'ionicons/icons';
 import { useRoute, useRouter } from 'vue-router'
 import { useStoreAuth } from '../stores/storeAuth'
 import { onMounted, ref } from 'vue'
 import { Series } from '../models/series.model';
 import { useFirestore } from '../stores/useFirestore';
 import Event from '../models/event.model';
-import { Player } from '@/models/player.model';
+import { Player } from '../models/player.model';
 
 const { getItem, updateItem, item: series, init } = useFirestore<Series>(['series'])
 const route = useRoute()
@@ -100,7 +115,7 @@ const addMe = () => {
         if (series.value.players.find(p => p.userId === currentUser.id)) {
             return;
         }
-        addPlayer({ userId: currentUser.id, userName: currentUser.userName, role: 'Player', handicap: currentUser.handicap, currentWinnings: 0, currentPoints: 0 } as Player )
+        addPlayer({ userId: currentUser.id, userName: currentUser.userName, role: 'Player', handicap: currentUser.handicap, currentWinnings: 0, currentPoints: 0 } as Player)
     }
 }
 

@@ -75,7 +75,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   margin: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem !important;
 }
 
 /* Universal */
@@ -147,6 +147,16 @@ select {
   }
 }
 
+fieldset {
+  border: 3px solid #008763;
+  margin-top: 1rem;
+}
+
+fieldset legend {
+  color: #008763;
+  font-weight: bold;
+}
+
 /* Item list */
 .item-list {
   margin-bottom: 1rem;
@@ -168,6 +178,7 @@ select {
 .item-info {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   padding: 1rem;
   flex: 1;
 }
@@ -261,8 +272,18 @@ nav ion-icon {
 
 .item-view-info {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.item-view-info b {
+  display: block;
+}
+
+.item-view-info button {
+  width: initial;
 }
 
 /* Side table */

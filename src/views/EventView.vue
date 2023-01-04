@@ -1,37 +1,37 @@
 <template>
-    <div class="content-container">
-        <h1>Event</h1>
-        <div v-if="event">
-            <div>
-                <label>Event Name</label>
-                <input v-model="event.name" />
+    <ion-page v-if="event">
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>{{ event.name }}</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="item-view-info" v-if="event">
+                <span><b>Name:</b> {{ event.name }}</span>
+                <span><b>Date:</b> {{ event.date }}</span>
+                <span><b>Course:</b> {{ event.course }}</span>
             </div>
-            <div>
-                <label>Event Date</label>
-                <input v-model="event.date" />
-            </div>
-            <div>
-                <label>Event Course</label>
-                <input v-model="event.course" />
-            </div>
-        </div>
-    </div>
+        </ion-content>
+    </ion-page>
 </template>
 <script setup lang="ts">
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 import { useFirestore } from '../stores/useFirestore'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import Event from '../models/event.model'
 import { onMounted } from 'vue'
 
 const route = useRoute()
-const router = useRouter()
 const seriesId = route.params.seriesId
 const eventId = route.params.eventId
 
 const { getItem: getEvent, item: event, init } = useFirestore<Event>(['series', seriesId as string, 'events'])
-    const navigateToItem = (seriesId: string) => {
-    router.push('/view-series/' + seriesId)
-}
 getEvent(eventId as string)
 onMounted(() => {
     init()
