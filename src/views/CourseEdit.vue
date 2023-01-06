@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <label for="state">State:</label>
-                    <StateSelect selectedState="item.state" @stateChanged($event)="changeSelectedState($event)" />
+                    <StateSelect :selectedState="course.state" @stateChanged="(course as Course).state = $event" />
                 </div>
             </div>
             <div class="table-container edit-table">
@@ -82,9 +82,6 @@ getCourse(id as string);
 const save = () => {
     updateCourse(course.value?.id as string, course.value);
     router.push({ name: 'course-list' })
-}
-const changeSelectedState = (state: string) => {
-    (course.value as Course).state = state;
 }
 
 onMounted(() => {

@@ -43,7 +43,7 @@
                 </div>
                 <div>
                     <label for="state">State:</label>
-                    <input type="text" id="state" v-model="state">
+                    <StateSelect :selectedState="state" @stateChanged="state = $event" />
                 </div>
                 <div class="button-group">
                     <button @click="register">Register</button>
@@ -57,6 +57,7 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 import { useStoreAuth } from "../stores/storeAuth";
 import { ref } from "vue"
+import StateSelect from '../components/StateSelect.vue'
 
 const { registerUser } = useStoreAuth();
 const email = ref("");
@@ -65,8 +66,8 @@ const lastName = ref("");
 const userName = ref("");
 const password = ref("");
 const handicap = ref(0);
-const city = ref("");
-const state = ref("");
+const city = ref("Augusta");
+const state = ref("GA");
 
 const register = () => {
     registerUser({ email: email.value, password: password.value, firstName: firstName.value, lastName: lastName.value, userName: userName.value, handicap: handicap.value, city: city.value, state: state.value, role: "user" })

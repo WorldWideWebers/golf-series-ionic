@@ -1,5 +1,5 @@
 <template>
-    <select :value="state" @change="emitValue">
+    <select :value="selectedState" @change="emitValue">
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -60,7 +60,7 @@ const emit = defineEmits(['stateChanged'])
 const props = defineProps({
     selectedState: {
         type: String,
-        default: 'MN'
+        default: 'GA'
     }
 })
 const state = ref(props.selectedState)

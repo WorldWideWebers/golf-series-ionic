@@ -35,7 +35,7 @@
         </div>
         <div>
           <label for="state">State:</label>
-          <input type="text" id="state" v-model="user.state">
+          <StateSelect :selectedState="user.state" @stateChanged="(user as User).state = $event" />
         </div>
         <div v-if="currentUser.role === 'admin'">
           <label for="role">Role:</label>
@@ -56,6 +56,8 @@ import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButt
 import { useStoreAuth } from '../stores/storeAuth'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import User  from '../models/user.model'
+import StateSelect from '../components/StateSelect.vue'
 
 const { currentUser, saveUser } = useStoreAuth();
 const router = useRouter();
