@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <label for="state">State:</label>
-                    <input id="state" type="text" v-model="course.state">
+                    <StateSelect selectedState="item.state" @stateChanged($event)="changeSelectedState($event)" />
                 </div>
             </div>
             <div class="table-container edit-table">
@@ -66,12 +66,13 @@
     </ion-page>
 </template>
 <script setup lang="ts">
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonButton, IonPage } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 import { useRoute } from 'vue-router'
 import { Course } from '../models/course.model';
 import router from '../router';
 import { useFirestore } from '../stores/useFirestore';
 import { onMounted } from 'vue';
+import StateSelect from '../components/StateSelect.vue';
 
 const { getItem: getCourse, updateItem: updateCourse, item: course, init } = useFirestore<Course>(['courses'])
 
@@ -82,8 +83,8 @@ const save = () => {
     updateCourse(course.value?.id as string, course.value);
     router.push({ name: 'course-list' })
 }
-const navigateToItem = (courseId: string) => {
-    router.push('/view-course/' + courseId)
+const changeSelectedState = (state: string) => {
+    (course.value as Course).state = state;
 }
 
 onMounted(() => {

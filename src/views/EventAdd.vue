@@ -1,28 +1,35 @@
 <template>
-
-    <div class="content-container">
-        <div class="input-group">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" v-model="newEvent.name">
+    <ion-page>
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <ion-back-button></ion-back-button>
+                </ion-buttons>
+                <ion-title>Add Event</ion-title>
+                <ion-buttons slot="end">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+            <div class="input-group">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" v-model="newEvent.name">
+                </div>
+                <div>
+                    <label for="endDate">Date:</label>
+                    <input type="date" id="endDate" v-model="newEvent.date">
+                </div>
             </div>
-            <div>
-                <label for="date">Date:</label>
-                <input type="date" id="date" v-model="newEvent.date">
+            <div class="button-group">
+                <button @click="save">Save</button>
             </div>
-            <!-- <div>
-                <label for="course">Course:</label>
-                <select id="course" v-model="course">
-                    <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.name }}</option>
-                </select>
-            </div> -->
-        </div>
-        <div class="button-group">
-            <button @click="save">Save</button>
-        </div>
-    </div>
+        </ion-content>
+    </ion-page>
 </template>
 <script setup lang="ts">
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useFirestore } from '../stores/useFirestore'
 import { onMounted, ref } from 'vue'
@@ -36,9 +43,6 @@ const newEvent = ref({
     date: new Date().toUTCString(),
 })
 
-const navigateToItem = (seriesId: string) => {
-    router.push('/view-series/' + seriesId)
-}
 const save = () => {
     addItem(newEvent.value as Partial<Event>)
     router.push({ path: '/edit-series/' + seriesId })

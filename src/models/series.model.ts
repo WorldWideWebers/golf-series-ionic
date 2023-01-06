@@ -12,4 +12,5 @@ export interface Series {
     startDate: string,
     endDate: string,
     singleCourseId: string,
+    state: string,
 }

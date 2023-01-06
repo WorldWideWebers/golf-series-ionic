@@ -80,6 +80,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "view-event",
     component: () => import("../views/EventView.vue"),
   },
+  {
+    path: "/edit-event/:seriesId/:eventId",
+    name: "edit-event",
+    component: () => import("../views/EventEdit.vue"),
+  }
 ];
 
 const router = createRouter({

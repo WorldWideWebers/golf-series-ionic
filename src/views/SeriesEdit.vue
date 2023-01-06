@@ -34,24 +34,6 @@
             </div>
             <button @click="save">Save</button>
             <fieldset>
-                <legend>Events</legend>
-                <div class="item-list">
-                    <a class="item" v-for="event in (events as Event[])" :key="event.id">
-                        <div class="item-info" @click="navigateToViewEvent(event.id)">
-                            <b>{{ event.name }}</b>
-                            <div>
-                                <span><b>Date:</b> {{ event.date }}</span>
-                                <span><b>Course:</b> {{ event.course?.name }}</span>
-                            </div>
-                        </div>
-                        <button @click="deleteEvent(event.id)">
-                            <ion-icon :icon="trashOutline"></ion-icon>
-                        </button>
-                    </a>
-                </div>
-                <button @click="navigateToAddEvent()">Add Event</button>
-            </fieldset>
-            <fieldset>
                 <legend>Players</legend>
                 <div class="item-list">
                     <a class="item" v-for="player in (players as Player[])" :key="player.userId">
@@ -71,11 +53,29 @@
                 </div>
                 <button @click="addMe" v-if="!userInList">Add me to series</button>
             </fieldset>
+            <fieldset>
+                <legend>Events</legend>
+                <div class="item-list">
+                    <a class="item" v-for="event in (events as Event[])" :key="event.id">
+                        <div class="item-info" @click="navigateToViewEvent(event.id)">
+                            <b>{{ event.name }}</b>
+                            <div>
+                                <span><b>Date:</b> {{ event.date }}</span>
+                                <span><b>Course:</b> {{ event.course?.name }}</span>
+                            </div>
+                        </div>
+                        <button @click="deleteEvent(event.id)">
+                            <ion-icon :icon="trashOutline"></ion-icon>
+                        </button>
+                    </a>
+                </div>
+                <button @click="navigateToAddEvent()">Add Event</button>
+            </fieldset>
         </ion-content>
     </ion-page>
 </template>
 <script setup lang="ts">
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonMenuButton, IonContent, IonPage, IonIcon } from '@ionic/vue';
 import { trashOutline } from 'ionicons/icons';
 import { useRoute, useRouter } from 'vue-router'
 import { useStoreAuth } from '../stores/storeAuth'

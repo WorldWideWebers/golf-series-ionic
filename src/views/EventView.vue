@@ -11,12 +11,13 @@
                 </ion-buttons>
             </ion-toolbar>
         </ion-header>
-        <ion-content class="ion-padding">
-            <div class="item-view-info" v-if="event">
+        <ion-content class="ion-padding" v-if="event">
+            <div class="item-view-info" >
                 <span><b>Name:</b> {{ event.name }}</span>
                 <span><b>Date:</b> {{ event.date }}</span>
                 <span><b>Course:</b> {{ event.course }}</span>
             </div>
+            <button @click="edit">Edit event</button>
         </ion-content>
     </ion-page>
 </template>
@@ -26,6 +27,7 @@ import { useFirestore } from '../stores/useFirestore'
 import { useRoute } from 'vue-router'
 import Event from '../models/event.model'
 import { onMounted } from 'vue'
+import router from '../router'
 
 const route = useRoute()
 const seriesId = route.params.seriesId
@@ -33,6 +35,9 @@ const eventId = route.params.eventId
 
 const { getItem: getEvent, item: event, init } = useFirestore<Event>(['series', seriesId as string, 'events'])
 getEvent(eventId as string)
+const edit = () => {
+    router.push(`/edit-event/${seriesId}/${eventId}`)
+}
 onMounted(() => {
     init()
     getEvent(eventId as string)

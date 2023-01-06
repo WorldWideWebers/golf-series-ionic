@@ -21,14 +21,6 @@
                 <button @click="editSeries">Edit series</button>
             </div>
             <fieldset>
-                <legend>Events</legend>
-                <div class="item-view-info" v-for="event of events" :key="event.id">
-                    <span><b>Name:</b> {{ event.name }}</span>
-                    <span><b>Date:</b> {{ event.date }}</span>
-                    <span><b>Course:</b> {{ event.course }}</span>
-                </div>
-            </fieldset>
-            <fieldset>
                 <legend>Players</legend>
                 <div class="item-view-info" v-for="player of (players as Player[])" :key="player.id">
                     <span><b>Name:</b> {{ player.userName }}</span>
@@ -36,6 +28,14 @@
                     <span><b>Hc:</b> {{ player.handicap }}</span>
                     <span><b>Winnings:</b> {{ player.currentWinnings }}</span>
                     <span><b>Points:</b> {{ player.currentPoints }}</span>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Events</legend>
+                <div class="item-view-info" v-for="event of events" :key="event.id">
+                    <span><b>Name:</b> {{ event.name }}</span>
+                    <span><b>Date:</b> {{ event.date }}</span>
+                    <span><b>Course:</b> {{ event.course }}</span>
                 </div>
             </fieldset>
         </ion-content>
